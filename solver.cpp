@@ -1,5 +1,6 @@
 #include "solver.hpp"
 #include <complex>
+#include <math.h>
 
 
 using namespace solver;
@@ -34,6 +35,11 @@ RealVariable RealVariable::operator- (const RealVariable& realVar) const
     return RealVariable(_a - realVar._a, _b - realVar._b, _c - realVar._c);
 }
 
+RealVariable solver:: operator* (double x, const RealVariable& realVar)
+{
+    return realVar._b * x;
+}
+
 RealVariable operator- (double x, const RealVariable& realVar)
 {
     return RealVariable(x) - realVar;
@@ -41,20 +47,23 @@ RealVariable operator- (double x, const RealVariable& realVar)
 
 RealVariable RealVariable :: operator^ (int x)
 {
-    RealVariable r;
-    return r;
+    if(x < 0 || x > 2)
+    {
+        throw runtime_error("this power is illegal");
+    }
+    return _a = x;
 }
 
 RealVariable RealVariable :: operator== (RealVariable x)
 {
     return true;
 }
-RealVariable   RealVariable :: operator== (int x)
+RealVariable RealVariable :: operator== (int x)
 {
     return true;
 }
 
-RealVariable  RealVariable :: operator/ (int x)
+RealVariable RealVariable :: operator/ (int x)
 {
     RealVariable r;
     return r;
@@ -125,12 +134,18 @@ ComplexVariable  ComplexVariable :: operator== (int x)
     return true;
 }
 
-double solver:: solve(RealVariable x)
+double solver:: solve(const RealVariable& x)
 {
-    return 2;
+    return (-(x._b + sqrt(x._b * x._b - 4 * x._a * x._c)) / (2 * x._a));
 }
 
-complex<double> solver:: solve(ComplexVariable x)
+complex<double> solver:: solve(const ComplexVariable& x)
 {
   return std:: complex <double>(2.2,4.0);
+}
+
+int main()
+{
+    RealVariable x;
+    cout << solve((x^2) + 7*x + 6) << endl;
 }

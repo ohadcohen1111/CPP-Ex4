@@ -8,17 +8,22 @@ namespace solver {
 
     class RealVariable
     {
-        private:
-            double _a, _b, _c;
+        // private:
+        //     double _a, _b, _c;
 
         public:
+         double _a, _b, _c;
         //constructor
             RealVariable();
             RealVariable(double c);
             RealVariable(double a, double b, double c);
 
-        //getters
-                 
+        // //getters
+        //     double get_a(){return this->_a;};
+        //     double get_b(){return this->_b;};     
+        //     double get_c(){return this->_c;};     
+     
+
         //operators   
             RealVariable operator+ (const RealVariable& realVar) const;
             friend RealVariable operator+ (double x, const RealVariable& realVar);
@@ -27,7 +32,7 @@ namespace solver {
             RealVariable operator- (const RealVariable& x) const;
             friend RealVariable operator- (double x, const RealVariable& realVar);
 
-            friend RealVariable operator* (double x, RealVariable y );
+            friend RealVariable operator* (double x, const RealVariable& realVar);
 
             RealVariable operator^ (int x);
 
@@ -90,8 +95,8 @@ namespace solver {
             //complex<double> solve(bool x);
     };
 
-        complex<double> solve(ComplexVariable x);
-        double solve(RealVariable x);
+        complex<double> solve(const ComplexVariable& x);
+        double solve(const RealVariable& x);
 
 
 
