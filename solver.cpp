@@ -10,10 +10,10 @@ RealVariable::RealVariable() : _a(0), _b(1), _c(0)
 
 }
 
-RealVariable::RealVariable(double c) : _a(0), _b(0), _c(c)
-{
+// RealVariable::RealVariable(double c) : _a(0), _b(0), _c(c)
+// {
 
-}
+// }
 
 RealVariable::RealVariable(double a, double b, double c) : _a(a), _b(b), _c(c)
 {
@@ -25,24 +25,44 @@ RealVariable RealVariable::operator+ (const RealVariable& realVar) const
     return RealVariable(_a + realVar._a, _b + realVar._b, _c + realVar._c);
 }
 
-RealVariable operator+ (double x, const RealVariable& realVar)
+RealVariable solver::operator+ (double x, RealVariable const& realVar)
 {
-    return realVar + x;
+    return RealVariable(realVar._a, realVar._b, realVar._c + x);
 }
+
+// RealVariable operator+ (int x, const RealVariable& realVar)
+// {
+//     // return realVar + x;
+//     return RealVariable(realVar._a, realVar._b, realVar._c + x);
+// }
+
+RealVariable solver::RealVariable :: operator+ (double x)
+{
+    return RealVariable(_a, _b, _c + x);
+}
+
+
 
 RealVariable RealVariable::operator- (const RealVariable& realVar) const
 {
     return RealVariable(_a - realVar._a, _b - realVar._b, _c - realVar._c);
 }
 
-RealVariable solver:: operator* (double x, const RealVariable& realVar)
+
+RealVariable solver::operator- (RealVariable const& realVar, double x)
 {
-    return realVar._b * x;
+    return RealVariable(realVar._a, realVar._b , realVar._c - x);
 }
 
-RealVariable operator- (double x, const RealVariable& realVar)
+RealVariable solver::operator- (double x, const RealVariable& realVar)
 {
-    return RealVariable(x) - realVar;
+    return RealVariable(realVar._a, realVar._b , x - realVar._c);
+}
+
+RealVariable& solver:: operator* (double x, const RealVariable& realVar)
+{
+    RealVariable * res = new RealVariable(realVar._a * x, realVar._b * x, realVar._c * x);
+    return *res;
 }
 
 RealVariable RealVariable :: operator^ (int x)
@@ -51,22 +71,40 @@ RealVariable RealVariable :: operator^ (int x)
     {
         throw runtime_error("this power is illegal");
     }
-    return _a = x;
+
+    if(x == 2)
+    {
+       return RealVariable(1,0,0);
+    }
+
+    if(x == 1)
+    {
+       return RealVariable(0,1,0);
+    }  
+
+    if(x == 0)
+    {
+       return RealVariable(0,0,1);
+    }
+    
 }
 
 RealVariable RealVariable :: operator== (RealVariable x)
 {
-    return true;
+    return RealVariable(_a - x._a, _b - x._b, _c - x._c);
 }
 RealVariable RealVariable :: operator== (int x)
 {
-    return true;
+    return RealVariable(_a,_b,_c - x);
 }
 
 RealVariable RealVariable :: operator/ (int x)
 {
-    RealVariable r;
-    return r;
+    if(x != 0)
+    {
+    return RealVariable(_a / x, _b / x, _c / x); 
+    }
+    throw runtime_error("cant divide in 0");
 }
 
 ComplexVariable  solver :: operator* (int x, ComplexVariable y)
@@ -136,7 +174,7 @@ ComplexVariable  ComplexVariable :: operator== (int x)
 
 double solver:: solve(const RealVariable& x)
 {
-    return (-(x._b + sqrt(x._b * x._b - 4 * x._a * x._c)) / (2 * x._a));
+    return (-(x._b - sqrt(x._b * x._b - 4 * x._a * x._c)) / (2 * x._a));
 }
 
 complex<double> solver:: solve(const ComplexVariable& x)
@@ -147,5 +185,10 @@ complex<double> solver:: solve(const ComplexVariable& x)
 int main()
 {
     RealVariable x;
-    cout << solve((x^2) + 7*x + 6) << endl;
+    cout << solve((x ^ 3) == 100) ;
+    //cout << solve((x^2) + 2*x + 4.0 == 6.0*x/2 + 20 - x) << endl;
+    //cout << solve((x^2) + 7*x + 6 == 4 + x) << endl;
+    //cout << solve(3*(x^2)) << endl;
+    // solve((x^2) + 2*x + 4.0 == 20 + 6.0*x/2 - x);   
+    // solve(4 + x == 2);   
 }

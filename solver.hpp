@@ -15,7 +15,7 @@ namespace solver {
          double _a, _b, _c;
         //constructor
             RealVariable();
-            RealVariable(double c);
+            // RealVariable(double c);
             RealVariable(double a, double b, double c);
 
         // //getters
@@ -26,13 +26,15 @@ namespace solver {
 
         //operators   
             RealVariable operator+ (const RealVariable& realVar) const;
-            friend RealVariable operator+ (double x, const RealVariable& realVar);
-           
+            friend RealVariable operator+ (double x, RealVariable const& realVar);
+            RealVariable operator+ (double x);
+
            
             RealVariable operator- (const RealVariable& x) const;
-            friend RealVariable operator- (double x, const RealVariable& realVar);
+            friend RealVariable operator- (double x, RealVariable const& realVar);
+            friend RealVariable operator- (const RealVariable& realVar, double x);
 
-            friend RealVariable operator* (double x, const RealVariable& realVar);
+            friend RealVariable& operator* (double x, const RealVariable& realVar);
 
             RealVariable operator^ (int x);
 
