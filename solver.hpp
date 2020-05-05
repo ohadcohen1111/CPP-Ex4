@@ -49,50 +49,41 @@ namespace solver {
 
      class ComplexVariable
     {
-        private:
-            double c_re;
-            double c_im;
-
 
         public:
 
         //constructor
-            ComplexVariable (const double& re= 0.0, const double& im= 0.0)
-              : c_re(re), c_im(im){}
-            
-        //getters
-            double getReal() const
+            complex<double>  c_a, c_b, c_c; 
+            ComplexVariable (): c_a(complex<double> (0,0)),  c_b(complex<double> (1,0)), c_c(complex<double> (0,0)){};
+            ComplexVariable (complex<double> _a, complex<double> _b, complex<double> _c) 
             {
-		        return c_re;
-	        }
-
-	        double getImage() const 
-            {
-		        return c_im;
-	        }
+                c_a = _a ;
+                c_b = _b ;
+                c_c = _c;
+            } 
 
         //operators   
             // ComplexVariable operator* (int x);
-            // ComplexVariable operator* (double x);
-            friend ComplexVariable operator* (int x, ComplexVariable y);
+            ComplexVariable operator* (ComplexVariable y);
+            friend ComplexVariable operator* (double x, ComplexVariable y);
+        //    friend double operator* (double x, complex<double> y);
 
-
-            ComplexVariable operator- (int x);
+            ComplexVariable operator- (double x);
             ComplexVariable operator- (ComplexVariable x);
 
             ComplexVariable operator+ (ComplexVariable x);
             ComplexVariable operator+ (complex<double> x);
-            ComplexVariable operator+ (int x);
-            friend ComplexVariable operator+ (int x, ComplexVariable y);
+            ComplexVariable operator+ (double x);
+            friend ComplexVariable operator+ (double x, ComplexVariable y);
 
-            ComplexVariable operator/ (int x);
+            ComplexVariable operator/ (double x);
 
             ComplexVariable operator^ (int x);
 
             // ComplexVariable operator() (int x);
 
             ComplexVariable operator== (ComplexVariable x);
-            ComplexVariable operator== (int x);
+            ComplexVariable operator== (double x);
 
             //complex<double> solve(bool x);
     };

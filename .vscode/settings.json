@@ -3,6 +3,7 @@
         "chrono": "cpp",
         "complex": "cpp",
         "stdexcept": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "*.tcc": "cpp"
     }
 }
